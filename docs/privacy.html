@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Slate Stack</title>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #faf8f4;
+    color: #2b2a28;
+    margin: 0;
+    padding: 48px 20px;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 680px; margin: 0 auto; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  .updated { color: #6b6660; font-size: 0.9rem; margin: 0 0 28px; }
+  h2 { font-size: 1.1rem; margin: 32px 0 8px; }
+  p, li { font-size: 0.96rem; }
+  a { color: #2d6a4f; }
+  code {
+    background: #eee9df;
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .contact {
+    margin-top: 40px;
+    padding: 16px 18px;
+    background: #eef4f0;
+    border: 1px solid #d3e2d9;
+    border-radius: 10px;
+  }
+  .back { display: inline-block; margin-bottom: 24px; font-size: 0.9rem; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./">← Slate Stack</a>
+    <h1>Privacy Policy — Slate Stack</h1>
+    <p class="updated">Last updated: July 2026</p>
+
+    <p>Slate Stack ("the extension") is a Chrome extension that lets you save tabs to a read-later queue. This policy explains what data the extension touches and how.</p>
+
+    <h2>Data we collect</h2>
+    <p>We (the developer) do not collect, store, or have access to any of your personal data or browsing history. Slate Stack does not use analytics and does not track you across sites.</p>
+    <p>The tabs you save (title, URL, and the time you saved them) and your settings (sort order, remove-on-open) are stored using Chrome's built-in <code>storage</code> API, on your own device only. They are never transmitted to us or to any third party.</p>
+
+    <h2>Payment data</h2>
+    <p>If you purchase Slate Stack Premium, payment is handled entirely by <a href="https://extensionpay.com">ExtensionPay</a> and <a href="https://stripe.com">Stripe</a>, not by us. We never see, receive, or store your card number or other payment details. ExtensionPay stores your email address (used for login/purchase-restore on other devices) and payment status (paid or not) on their servers. See <a href="https://extensionpay.com/privacy">ExtensionPay's privacy policy</a> and <a href="https://stripe.com/privacy">Stripe's privacy policy</a> for details on how they handle that data.</p>
+
+    <h2>Permissions the extension requests, and why</h2>
+    <ul>
+      <li><code>activeTab</code> — lets the extension read the title/URL of the current tab only when you click the toolbar icon, use a keyboard shortcut, or use the right-click menu on that tab. It cannot read tabs you haven't directly interacted with.</li>
+      <li><code>storage</code> — needed to save your queued tabs and settings locally.</li>
+      <li><code>contextMenus</code> — adds the "Send this page" / "Send link" right-click menu items.</li>
+    </ul>
+    <p>Slate Stack never requests permission to read your full browsing history or any tab you haven't explicitly sent to it.</p>
+
+    <h2>Children's privacy</h2>
+    <p>Slate Stack is not directed at children under 13, and we do not knowingly collect data from children.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If this policy changes, the updated version will be posted at the same URL with a revised "Last updated" date.</p>
+
+    <div class="contact">
+      Questions about this policy or the extension: <strong>ruyzambrano@gmail.com</strong>
+    </div>
+  </div>
+</body>
+</html>

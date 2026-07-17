@@ -3,68 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Privacy Policy — Slate Stack</title>
+<title>Slate Stack — Read Later & Tab Manager</title>
 <style>
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     background: #faf8f4;
     color: #2b2a28;
     margin: 0;
-    padding: 48px 20px;
+    padding: 0;
     line-height: 1.6;
   }
-  .wrap { max-width: 680px; margin: 0 auto; }
-  h1 { font-size: 1.6rem; margin: 0 0 4px; }
-  .updated { color: #6b6660; font-size: 0.9rem; margin: 0 0 28px; }
-  h2 { font-size: 1.1rem; margin: 32px 0 8px; }
-  p, li { font-size: 0.96rem; }
-  a { color: #2d6a4f; }
-  code {
-    background: #eee9df;
-    padding: 1px 5px;
-    border-radius: 4px;
-    font-size: 0.9em;
+  .wrap { max-width: 720px; margin: 0 auto; padding: 56px 20px 64px; }
+  header { text-align: center; margin-bottom: 36px; }
+  h1 { font-size: 2rem; margin: 0 0 10px; }
+  .tagline { color: #6b6660; font-size: 1.1rem; margin: 0; }
+  .hero {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #e8e3da;
+    margin: 32px 0 40px;
+    display: block;
   }
-  .contact {
-    margin-top: 40px;
-    padding: 16px 18px;
+  .cta-row { text-align: center; margin: 32px 0 44px; }
+  .cta {
+    display: inline-block;
+    background: #2d6a4f;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1.05rem;
+  }
+  .cta:hover { background: #245a41; }
+  .price-note { color: #6b6660; font-size: 0.85rem; margin-top: 10px; }
+  h2 { font-size: 1.25rem; margin: 40px 0 12px; }
+  p { font-size: 1rem; }
+  ul.features { padding-left: 0; list-style: none; margin: 16px 0; }
+  ul.features li {
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid #e8e3da;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.96rem;
+  }
+  .trust {
+    margin-top: 44px;
+    padding: 18px 20px;
     background: #eef4f0;
     border: 1px solid #d3e2d9;
     border-radius: 10px;
+    font-size: 0.92rem;
   }
+  footer {
+    text-align: center;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #e8e3da;
+    font-size: 0.85rem;
+    color: #6b6660;
+  }
+  footer a { color: #2d6a4f; }
 </style>
 </head>
 <body>
   <div class="wrap">
-    <h1>Privacy Policy — Slate Stack</h1>
-    <p class="updated">Last updated: July 2026</p>
+    <header>
+      <h1>Slate Stack</h1>
+      <p class="tagline">Turn "too many open tabs" into a simple reading queue.</p>
+    </header>
 
-    <p>Slate Stack ("the extension") is a Chrome extension that lets you save tabs to a read-later queue. This policy explains what data the extension touches and how.</p>
+    <img class="hero" src="hero.png" alt="Slate Stack brand artwork">
 
-    <h2>Data we collect</h2>
-    <p>We (the developer) do not collect, store, or have access to any of your personal data or browsing history. Slate Stack does not use analytics and does not track you across sites.</p>
-    <p>The tabs you save (title, URL, and the time you saved them) and your settings (sort order, remove-on-open) are stored using Chrome's built-in <code>storage</code> API, on your own device only. They are never transmitted to us or to any third party.</p>
+    <p>Save any tab with one click, a keyboard shortcut, or a right-click — then work through your list one page at a time whenever you're ready, instead of drowning in dozens of open tabs.</p>
 
-    <h2>Payment data</h2>
-    <p>If you purchase Slate Stack Premium, payment is handled entirely by <a href="https://extensionpay.com">ExtensionPay</a> and <a href="https://stripe.com">Stripe</a>, not by us. We never see, receive, or store your card number or other payment details. ExtensionPay stores your email address (used for login/purchase-restore on other devices) and payment status (paid or not) on their servers. See <a href="https://extensionpay.com/privacy">ExtensionPay's privacy policy</a> and <a href="https://stripe.com/privacy">Stripe's privacy policy</a> for details on how they handle that data.</p>
-
-    <h2>Permissions the extension requests, and why</h2>
-    <ul>
-      <li><code>activeTab</code> — lets the extension read the title/URL of the current tab only when you click the toolbar icon, use a keyboard shortcut, or use the right-click menu on that tab. It cannot read tabs you haven't directly interacted with.</li>
-      <li><code>storage</code> — needed to save your queued tabs and settings locally.</li>
-      <li><code>contextMenus</code> — adds the "Send this page" / "Send link" right-click menu items.</li>
-    </ul>
-    <p>Slate Stack never requests permission to read your full browsing history or any tab you haven't explicitly sent to it.</p>
-
-    <h2>Children's privacy</h2>
-    <p>Slate Stack is not directed at children under 13, and we do not knowingly collect data from children.</p>
-
-    <h2>Changes to this policy</h2>
-    <p>If this policy changes, the updated version will be posted at the same URL with a revised "Last updated" date.</p>
-
-    <div class="contact">
-      Questions about this policy or the extension: <strong>ruyzambrano@gmail.com</strong>
+    <div class="cta-row">
+      <a class="cta" href="#">Get Slate Stack — Chrome Web Store</a>
+      <p class="price-note">Free tier: save up to 15 tabs. Premium unlocks unlimited for $5, one-time — no subscription.</p>
     </div>
+
+    <h2>What Premium unlocks</h2>
+    <ul class="features">
+      <li>Unlimited saved tabs</li>
+      <li>Sort order — oldest or newest first</li>
+      <li>Remove-on-open control — keep or clear items automatically when you open them</li>
+    </ul>
+
+    <div class="trust">
+      <strong>No account, no sign-in, no sync</strong> — your list lives only in this browser. Slate Stack only reads the tab you explicitly send it; it can't see your other open tabs or your browsing history.
+    </div>
+
+    <footer>
+      <a href="privacy.html">Privacy Policy</a> · Questions? <strong>ruyzambrano@gmail.com</strong>
+    </footer>
   </div>
 </body>
 </html>
