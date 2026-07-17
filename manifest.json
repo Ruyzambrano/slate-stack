@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Slate Stack – Read Later & Tab Manager",
+  "version": "0.1",
+  "description": "Save tabs to a simple read-later queue and work through them one at a time. A lightweight tab manager and reading list, entirely local — no account, no sync.",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Slate Stack",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "commands": {
+    "add-to-slate-stack": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+S",
+        "mac": "Command+Shift+S"
+      },
+      "description": "Add the current tab to Slate Stack"
+    },
+    "open-slate-stack": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+O",
+        "mac": "Command+Shift+O"
+      },
+      "description": "Open the Slate Stack list"
+    }
+  },
+  "permissions": ["activeTab", "storage", "contextMenus"]
+}

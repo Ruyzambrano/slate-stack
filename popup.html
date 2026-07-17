@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    width: 260px;
+    font-family: -apple-system, sans-serif;
+    padding: 14px;
+    margin: 0;
+  }
+  h1 {
+    font-size: 13px;
+    margin: 0 0 10px;
+    color: #2b2a28;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    background: #2d6a4f;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  button:hover { background: #245a41; }
+  button:disabled {
+    background: #c9c4b8;
+    cursor: not-allowed;
+  }
+  button.secondary {
+    background: #6b6660;
+    margin-top: 8px;
+  }
+  button.secondary:hover { background: #575349; }
+  p.note {
+    font-size: 11px;
+    color: #6b6660;
+    margin: 10px 0 0;
+  }
+  p.restricted-note, p.limit-note {
+    font-size: 11px;
+    color: #8a3b2e;
+    background: #f7e3df;
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin: 10px 0 0;
+    display: none;
+  }
+  .premium-box {
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #eef4f0;
+    border: 1px solid #d3e2d9;
+  }
+  .premium-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #2b2a28;
+    margin: 0 0 4px;
+  }
+  .premium-sub {
+    font-size: 11px;
+    color: #6b6660;
+    margin: 0 0 10px;
+    line-height: 1.4;
+  }
+  .premium-box .secondary-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .premium-box .secondary-row button {
+    width: auto;
+    flex: 1;
+    margin-top: 0;
+  }
+</style>
+</head>
+<body>
+  <h1>Slate Stack</h1>
+  <button id="addToQueueBtn">Add this tab to Slate Stack</button>
+  <button id="openQueueBtn" class="secondary">Open Slate Stack (<span id="queueCount">0</span>)</button>
+  <p class="note">Tabs you add here stay in order until you open the list and read them one at a time. Also available via right-click and a keyboard shortcut (set at chrome://extensions/shortcuts).</p>
+  <p class="restricted-note" id="restrictedNote">Can't add this page — browser pages like this one are off-limits to every extension.</p>
+  <p class="limit-note" id="limitNote"></p>
+
+  <div class="premium-box" id="premiumLocked">
+    <p class="premium-title">Unlock unlimited</p>
+    <p class="premium-sub">No cap on saved tabs, sort order, and remove-on-open control — one-time purchase, no subscription.</p>
+    <button id="buyBtn" class="secondary">Buy Slate Stack Premium</button>
+    <div class="secondary-row">
+      <button id="loginBtn" class="secondary">Already paid? Log in</button>
+    </div>
+  </div>
+
+  <div class="premium-box" id="premiumActive" style="display:none;">
+    <p class="premium-title">✓ Premium active</p>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

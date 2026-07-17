@@ -1,0 +1,14 @@
+# macOS Finder metadata
+.DS_Store
+
+# Python cache from icons/generate_icons.py
+__pycache__/
+*.pyc
+
+# Editor folders
+.vscode/
+.idea/
+
+# In case any local tooling gets added later
+node_modules/
+.env
