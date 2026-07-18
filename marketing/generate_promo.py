@@ -111,8 +111,8 @@ def make_stack_promo(w, h):
     graphic = stack_graphic(tile_size)
     graphic = graphic.resize((round(graphic.width), round(graphic.height)), Image.LANCZOS)
 
-    x = (W - graphic.width) // 2
-    y = (H - graphic.height) // 2
+    x = (W - graphic.width)   
+    y = (H - graphic.height)   
     img.alpha_composite(graphic, (x, y))
 
     return img.convert("RGB").resize((w, h), Image.LANCZOS)

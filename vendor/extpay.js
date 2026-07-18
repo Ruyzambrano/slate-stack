@@ -1,26 +1,6 @@
-// Vendored copy of ExtPay.js (the client library for extensionpay.com),
-// AGPLv3 licensed, from https://github.com/Glench/ExtPay
-// (dist/ExtPay.module.js as of this writing).
-//
-// Chrome Web Store policy forbids extensions from loading remotely-hosted
-// code, so this file is committed here rather than pulled from a CDN at
-// runtime -- same reasoning as vendoring anything else an extension depends
-// on. To update, re-fetch dist/ExtPay.module.js from the repo above and
-// reapply the one deliberate change noted below.
-//
-// PATCH: the original file does
-//   import * as browser from 'webextension-polyfill';
-// which is a bare module specifier -- it only resolves under a bundler
-// (webpack/rollup), not in a plain unbundled <script type="module">. Since
-// these extensions are Chrome-only (no Firefox/Safari build) and don't use
-// a bundler, this is swapped for the `chrome` global directly. Every API
-// ExtPay actually calls (storage.sync/local, runtime.*, management.getSelf,
-// windows.*, tabs.create) is Promise-based in Chrome's own MV3 API when no
-// callback is passed, so this is a drop-in replacement here.
-const browser = chrome;
-
-// For running as a content script. Receive a message from the successful payments page
-// and pass it on to the background page to query if the user has paid.
+       
+//             //                       const browser = chrome;
+     
 if (typeof window !== 'undefined') {
     window.addEventListener('message', (event) => {
         if (event.origin !== 'https://extensionpay.com') return;
@@ -44,7 +24,7 @@ function ExtPay(extension_id) {
         try {
             return await browser.storage.sync.get(key)
         } catch(e) {
-            // if sync not available (like with Firefox temp addons), fall back to local
+              
             return await browser.storage.local.get(key)
         }
     }
@@ -52,12 +32,12 @@ function ExtPay(extension_id) {
         try {
             return await browser.storage.sync.set(dict)
         } catch(e) {
-            // if sync not available (like with Firefox temp addons), fall back to local
+              
             return await browser.storage.local.set(dict)
         }
     }
 
-    // ----- start configuration checks
+      
     browser.management && browser.management.getSelf().then(async (ext_info) => {
         if (!ext_info.permissions.includes('storage')) {
             var permissions = ext_info.hostPermissions.concat(ext_info.permissions);
@@ -73,14 +53,14 @@ You can copy and paste this to your manifest.json file to fix this error:
         }
 
     });
-    // ----- end configuration checks
+      
 
-    // run on "install"
+      
     get(['extensionpay_installed_at', 'extensionpay_user']).then(async (storage) => {
         if (storage.extensionpay_installed_at) return;
 
-        // Migration code: before v2.1 installedAt came from the server
-        // so use that stored datetime instead of making a new one.
+          
+          
         const user = storage.extensionpay_user;
         const date = user ? user.installedAt : (new Date()).toISOString();
         await set({'extensionpay_installed_at': date});
@@ -95,9 +75,9 @@ You can copy and paste this to your manifest.json file to fix this error:
         if (browser.management) {
             ext_info = await browser.management.getSelf();
         } else if (browser.runtime) {
-            ext_info = await browser.runtime.sendMessage('extpay-extinfo'); // ask background page for ext info
+            ext_info = await browser.runtime.sendMessage('extpay-extinfo');   
             if (!ext_info) {
-                // Safari doesn't support browser.management for some reason
+                  
                 const is_dev_mode = !('update_url' in browser.runtime.getManifest());
                 ext_info = {installType: is_dev_mode ? 'development' : 'normal'};
             }
@@ -142,7 +122,7 @@ You can copy and paste this to your manifest.json file to fix this error:
             return {
                 paid: false,
                 paidAt: null,
-                installedAt: storage.extensionpay_installed_at ? new Date(storage.extensionpay_installed_at) : new Date(), // sometimes this function gets called before the initial install time can be flushed to storage
+                installedAt: storage.extensionpay_installed_at ? new Date(storage.extensionpay_installed_at) : new Date(),   
                 trialStartedAt: null,
             }
         }
@@ -153,7 +133,7 @@ You can copy and paste this to your manifest.json file to fix this error:
                 'Accept': 'application/json',
             }
         });
-        // TODO: think harder about error states and what users will want (bad connection, server error, id not found)
+          
         if (!resp.ok) throw 'ExtPay error while fetching user: '+(await resp.text())
 
         const user_data = await resp.json();
@@ -201,7 +181,7 @@ You can copy and paste this to your manifest.json file to fix this error:
     async function open_popup(url, width, height) {
         if (browser.windows && browser.windows.create) {
             const current_window = await browser.windows.getCurrent();
-            // https://stackoverflow.com/a/68456858
+              
             const left = Math.round((current_window.width - width) * 0.5 + current_window.left);
             const top = Math.round((current_window.height - height) * 0.5 + current_window.top);
             try {
@@ -215,7 +195,7 @@ You can copy and paste this to your manifest.json file to fix this error:
                     top
                 });
             } catch(e) {
-                // firefox doesn't support 'focused'
+                  
                 browser.windows.create({
                     url: url,
                     type: "popup",
@@ -226,8 +206,8 @@ You can copy and paste this to your manifest.json file to fix this error:
                 });
             }
         } else {
-            // for opening from a content script
-            // https://developer.mozilla.org/en-US/docs/Web/API/Window/open
+              
+              
             window.open(url, null, `toolbar=no,location=no,directories=no,status=no,menubar=no,width=${width},height=${height},left=450`);
         }
     }
@@ -249,7 +229,7 @@ You can copy and paste this to your manifest.json file to fix this error:
     }
 
     async function open_trial_page(period) {
-        // let user have period string like '1 week' e.g. "start your 1 week free trial"
+          
 
         var api_key = await get_key();
         if (!api_key) {
@@ -272,7 +252,7 @@ You can copy and paste this to your manifest.json file to fix this error:
 
     var polling = false;
     async function poll_user_paid() {
-        // keep trying to fetch user in case stripe webhook is late
+          
         if (polling) return;
         polling = true;
         var user = await fetch_user();
@@ -308,7 +288,7 @@ You can copy and paste this to your manifest.json file to fix this error:
         ${content_script_template}`
                 }
                 const extpay_content_script_entry = manifest.content_scripts.find(obj => {
-                    // removing port number because firefox ignores content scripts with port number
+                      
                     return obj.matches.includes(HOST.replace(':3000', '')+'/*')
                 });
                 if (!extpay_content_script_entry) {
@@ -325,9 +305,9 @@ You can copy and paste this to your manifest.json file to fix this error:
 
                 paid_callbacks.push(callback);
             },
-            // removeListener: function(callback) {
-            //     // TODO
-            // }
+              
+              
+              
         },
         getPlans: get_plans,
         openPaymentPage: open_payment_page,
@@ -341,14 +321,14 @@ You can copy and paste this to your manifest.json file to fix this error:
         startBackground: function() {
             browser.runtime.onMessage.addListener(function(message, sender, send_response) {
                 if (message == 'extpay-fetch-user') {
-                    // Only called via extensionpay.com/extension/[extension-id]/paid -> content_script when user successfully pays.
-                    // It's possible attackers could trigger this but that is basically harmless. It would just query the user.
+                      
+                      
                     poll_user_paid();
                 } else if (message == 'extpay-trial-start') {
-                    // no need to poll since the trial confirmation page has already set trialStartedAt
+                      
                     fetch_user();
                 } else if (message == 'extpay-extinfo' && browser.management) {
-                    // get this message from content scripts which can't access browser.management
+                      
                     return browser.management.getSelf()
                 }
             });

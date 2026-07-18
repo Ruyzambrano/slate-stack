@@ -1,7 +1,3 @@
-// A real, standalone page inside the extension -- opened via
-// chrome.tabs.create({ url: chrome.runtime.getURL('queue.html') }). Full
-// page rather than the 300px popup, so it can show a list, settings, and
-// licensing all in one place.
 import {
   SETTINGS_DEFAULTS,
   FREE_TAB_LIMIT,
@@ -50,16 +46,10 @@ function saveQueue(queue) {
   chrome.storage.local.set({ queue });
 }
 
-// --- Premium / licensing ---
-
 async function refreshPremiumUI() {
   premium = await isPremium();
   premiumLocked.style.display = premium ? 'none' : 'block';
   premiumActive.style.display = premium ? 'block' : 'none';
-  // Settings are gated the same honest way as Slate Focus: disabling them
-  // isn't just cosmetic, changing them genuinely has no effect until
-  // unlocked, since render() below always forces the free defaults when
-  // not premium.
   sortOrderSelect.disabled = !premium;
   removeOnOpenCheckbox.disabled = !premium;
 }
@@ -72,10 +62,6 @@ loginBtn.addEventListener('click', () => {
   extpay().openLoginPage();
 });
 
-// Unlike the popup (which naturally re-checks on every open), this is a
-// regular tab that can stay open across the whole checkout flow -- so give
-// it an explicit way to re-check paid status without needing a manual page
-// reload after paying in the other tab.
 refreshStatusBtn.addEventListener('click', async () => {
   refreshStatusBtn.disabled = true;
   refreshStatusBtn.textContent = 'Checking…';
@@ -85,12 +71,6 @@ refreshStatusBtn.addEventListener('click', async () => {
   load();
 });
 
-// Items saved before this update don't have an `id` field, since sorting
-// and remove-on-open both need a stable identity that survives being
-// reordered for display -- an array index alone isn't enough once "oldest
-// first" and "newest first" can show the same item at different positions.
-// Rather than lose or break old data, backfill an id the first time an
-// old-format queue is loaded, and persist that back once.
 function ensureIds(queue) {
   let changed = false;
   const migrated = queue.map((item) => {
@@ -116,18 +96,12 @@ function removeById(id, queue) {
 
 async function render(queue) {
   const stored = await currentSettings();
-  // Free tier always sees the default order/behavior, same reasoning as
-  // Slate Focus's currentSettings() -- disabling the controls isn't
-  // enough on its own if a stale/edited storage value could still apply.
   const settings = premium ? stored : SETTINGS_DEFAULTS;
 
   countNote.textContent = premium
     ? `${queue.length} saved (unlimited)`
     : `${queue.length} / ${FREE_TAB_LIMIT} saved on the free tier`;
 
-  // The underlying array is always stored oldest-first (insertion order).
-  // "Newest first" is purely a display-time reversal of a copy -- the
-  // stored order never changes just because of how it's being viewed.
   const displayOrder = settings.sortOrder === 'newest' ? [...queue].slice().reverse() : queue;
 
   listEl.innerHTML = '';
@@ -152,8 +126,7 @@ async function render(queue) {
 
     const title = document.createElement('div');
     title.className = 'title';
-    // .textContent (not innerHTML) so a page title full of "<script>" or
-    // similar can never be interpreted as real HTML.
+
     title.textContent = (displayIndex === 0 ? '▶ ' : '') + item.title;
 
     const url = document.createElement('div');
@@ -193,10 +166,6 @@ async function render(queue) {
   });
 }
 
-// "Read next" always removes, regardless of the remove-on-open setting --
-// that's the one thing that makes it a queue you work *through* rather
-// than just a list you occasionally glance at. It opens whatever is
-// currently first in the *displayed* order, so it respects sort order too.
 nextBtn.addEventListener('click', async () => {
   const stored = await currentSettings();
   const settings = premium ? stored : SETTINGS_DEFAULTS;

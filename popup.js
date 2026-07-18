@@ -1,6 +1,3 @@
-// Loaded as an ES module so it can import the shared logic instead of
-// duplicating it -- the same addToQueue used here is also used by the
-// keyboard shortcut and both context-menu entries in background.js.
 import {
   addToQueue,
   isRestrictedUrl,
@@ -31,8 +28,6 @@ function refreshQueueCount() {
   });
 }
 
-// Same lesson as Slate Focus: don't let the button silently do nothing on
-// a chrome:// page -- disable it and say why.
 async function applyRestrictedState() {
   const tab = await activeTab();
   const restricted = isRestrictedUrl(tab?.url);
@@ -46,17 +41,10 @@ async function refreshPremiumUI() {
   premiumActive.style.display = premium ? 'block' : 'none';
 }
 
-// Opens ExtensionPay's hosted checkout in a new tab. The popup closes as
-// soon as that tab gets focus, so the next time it's opened,
-// refreshPremiumUI() below re-checks paid status fresh from ExtensionPay's
-// servers -- no manual "activate" step needed.
 buyBtn.addEventListener('click', () => {
   extpay().openPaymentPage();
 });
 
-// For someone who already paid but is on a new browser/device/profile:
-// ExtensionPay's own login page (email magic link), replacing the old
-// "paste your license key" flow entirely.
 loginBtn.addEventListener('click', () => {
   extpay().openLoginPage();
 });
@@ -71,9 +59,6 @@ addBtn.addEventListener('click', async () => {
   refreshQueueCount();
   limitNote.style.display = 'none';
 
-  // Brief inline feedback so clicking doesn't feel like it did nothing --
-  // stays silent for restricted/duplicate, but the free-tier cap is the
-  // actual upsell moment, so that one gets a real message.
   if (result.added) {
     const original = addBtn.textContent;
     addBtn.textContent = 'Added!';
