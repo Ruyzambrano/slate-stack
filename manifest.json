@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Slate Stack – Read Later & Tab Manager",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Save tabs to a simple read-later queue and work through them one at a time. Lightweight tab manager, entirely local — no account.",
   "action": {
     "default_popup": "popup.html",
