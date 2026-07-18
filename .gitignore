@@ -12,3 +12,7 @@ __pycache__/
 # In case any local tooling gets added later
 node_modules/
 .env
+
+# Launch/marketing copy drafts (Show HN, Reddit, Product Hunt) -- kept
+# local only, not meant to live in the public repo
+launch-copy/
