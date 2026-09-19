@@ -12,7 +12,7 @@ The tabs you save (title, URL, and the time you saved them) and your settings (s
 
 ## Payment data
 
-If you purchase Slate Stack Premium, payment is handled entirely by [ExtensionPay](https://extensionpay.com) and [Stripe](https://stripe.com), not by us. We never see, receive, or store your card number or other payment details. ExtensionPay stores your email address (used for login/purchase-restore on other devices) and payment status (paid or not) on their servers. See [ExtensionPay's privacy policy](https://extensionpay.com/privacy) and [Stripe's privacy policy](https://stripe.com/privacy) for details on how they handle that data.
+Slate Stack is free. It does not process payments, and no payment or account data of any kind is collected or transmitted anywhere. If you'd like to support development, an optional [Ko-fi](https://ko-fi.com/ruyzambrano) link is available in the extension popup and queue page — donations there are handled entirely by Ko-fi, not by us.
 
 ## Permissions the extension requests, and why
 

@@ -43,17 +43,11 @@ These all needed the same thing: code that runs even when the popup isn't open, 
 
 **Right-click menu** adds two entries via `chrome.contextMenus`: "Send this page to Slate Stack" (contexts: `page`) and "Send link to Slate Stack" (contexts: `link`) — the second lets you queue a link you see while browsing without navigating to it first, something the toolbar button can't do at all. Right-clicking directly on a link satisfies both contexts at once, so both items can appear together; that's expected, not a bug. Both are registered once in `chrome.runtime.onInstalled`, not on every service worker wake, since re-registering the same menu id throws a "duplicate id" error.
 
-## Free vs. Premium
+## Free
 
-Saving and reading tabs is free up to a point: the free tier caps the list at `FREE_TAB_LIMIT` (15) saved tabs, and locks sort order to oldest-first with remove-on-open always on. Premium removes the cap entirely and unlocks the sort-order and remove-on-open controls. `addToQueue()` in `shared.js` returns `{ added: false, reason: 'limit' }` instead of just `false` once the cap is hit while on the free tier — a richer result than before, so the popup can show a specific "upgrade for unlimited" message instead of silently doing nothing. `queue.js` and `popup.js` both compute `const settings = premium ? stored : SETTINGS_DEFAULTS;` before using sort order or remove-on-open, the same "don't trust disabled inputs alone" reasoning as Slate Focus — even manually-edited storage can't fake unlocked settings.
+Saving and reading tabs has no cap or locked settings: unlimited saved tabs, and both sort order (oldest/newest first) and remove-on-open are freely adjustable. There's no license, no account, and nothing phones home. The queue lives only in `chrome.storage.local`.
 
-**Licensing runs through ExtensionPay (extensionpay.com), no server of ours.** This replaced an earlier Gumroad-based design that required customers to copy-paste a license key — real friction for a £5 impulse buy. ExtensionPay is a service purpose-built for browser extension payments via Stripe, with no key to type. `shared.js` vendors the client library at `vendor/extpay.js` (committed directly, since Chrome Web Store policy forbids loading remotely-hosted code) and exports `extpay()`, which returns a fresh `ExtPay(EXTPAY_EXTENSION_ID)` instance. `buyBtn` calls `extpay().openPaymentPage()`, opening Stripe Checkout in a new tab; `isPremium()` calls `extpay().getUser()`, which asks ExtensionPay's servers for real-time paid status. No manual "activate" step — the popup and the full `queue.html` page both re-check on load.
-
-**One placeholder needs replacing before this can actually sell anything:** `EXTPAY_EXTENSION_ID` at the top of `shared.js`, currently `REPLACE_WITH_SLATE_STACK_EXTPAY_ID`, separate from Slate Focus's own id since these are sold as two independent extensions. It becomes real once you register this extension at [extensionpay.com](https://extensionpay.com) and connect Stripe.
-
-**Cross-device/browser, handled properly.** This was the direct problem with the Gumroad approach: `chrome.storage.sync` only reaches devices signed into the same Chrome account, not a different browser vendor or a signed-out profile. ExtensionPay sidesteps this entirely — paid status is tied to an email login on their servers (`extpay().openLoginPage()`, wired to "Already paid? Log in"), working identically across Chrome, Edge, Brave, or Firefox.
-
-**No "Deactivate" button anymore.** That was a Gumroad-era testing convenience for toggling a local flag; ExtensionPay's paid status is a live read from their servers, not a local flag to clear. For your own testing, use a Stripe test-mode account and [Stripe's test cards](https://docs.stripe.com/testing). Since `queue.html` is a regular tab that can stay open across the whole checkout flow (unlike the popup, which naturally re-checks every time it's reopened), it also has an explicit "Refresh status" button for re-checking paid status without a full page reload.
+This used to be gated behind an ExtensionPay paywall (a 15-tab free cap, £5 one-time unlock for the rest). That's been removed: at the install numbers this extension actually has, a paywall wasn't earning anything and was just friction for the few people who found it. The popup and queue page now carry an optional "buy me a coffee" link instead, for anyone who wants to say thanks — there's no expectation attached to it.
 
 ## Going deeper
 
@@ -62,7 +56,6 @@ Saving and reading tabs is free up to a point: the free tier caps the list at `F
 - [chrome.commands API reference](https://developer.chrome.com/docs/extensions/reference/api/commands)
 - [chrome.contextMenus API reference](https://developer.chrome.com/docs/extensions/reference/api/contextMenus)
 - [chrome.action API reference (badge)](https://developer.chrome.com/docs/extensions/reference/api/action)
-- [ExtensionPay documentation](https://extensionpay.com/) / [ExtPay library source](https://github.com/Glench/ExtPay)
 
 ## Published
 

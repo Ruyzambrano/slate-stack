@@ -1,6 +1,4 @@
-import { addToQueue, extpay } from './shared.js';
-
-extpay().startBackground();
+import { addToQueue } from './shared.js';
 
 async function refreshBadge() {
   const { queue } = await new Promise((resolve) => chrome.storage.local.get({ queue: [] }, resolve));
@@ -30,7 +28,6 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-
 chrome.commands.onCommand.addListener(async (command) => {
   if (command === 'add-to-slate-stack') {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -43,7 +40,6 @@ chrome.commands.onCommand.addListener(async (command) => {
     chrome.tabs.create({ url: chrome.runtime.getURL('queue.html') });
   }
 });
-
 
 chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (info.menuItemId === 'slate-stack-add-page') {

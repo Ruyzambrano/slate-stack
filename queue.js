@@ -1,9 +1,4 @@
-import {
-  SETTINGS_DEFAULTS,
-  FREE_TAB_LIMIT,
-  isPremium,
-  extpay,
-} from './shared.js';
+import { SETTINGS_DEFAULTS } from './shared.js';
 
 const listEl = document.getElementById('queueList');
 const emptyEl = document.getElementById('emptyState');
@@ -11,14 +6,6 @@ const nextBtn = document.getElementById('readNextBtn');
 const sortOrderSelect = document.getElementById('sortOrder');
 const removeOnOpenCheckbox = document.getElementById('removeOnOpen');
 const countNote = document.getElementById('countNote');
-
-const premiumLocked = document.getElementById('premiumLocked');
-const premiumActive = document.getElementById('premiumActive');
-const buyBtn = document.getElementById('buyBtn');
-const loginBtn = document.getElementById('loginBtn');
-const refreshStatusBtn = document.getElementById('refreshStatusBtn');
-
-let premium = false;
 
 function relativeTime(timestamp) {
   const diffSec = Math.round((Date.now() - timestamp) / 1000);
@@ -46,31 +33,6 @@ function saveQueue(queue) {
   chrome.storage.local.set({ queue });
 }
 
-async function refreshPremiumUI() {
-  premium = await isPremium();
-  premiumLocked.style.display = premium ? 'none' : 'block';
-  premiumActive.style.display = premium ? 'block' : 'none';
-  sortOrderSelect.disabled = !premium;
-  removeOnOpenCheckbox.disabled = !premium;
-}
-
-buyBtn.addEventListener('click', () => {
-  extpay().openPaymentPage();
-});
-
-loginBtn.addEventListener('click', () => {
-  extpay().openLoginPage();
-});
-
-refreshStatusBtn.addEventListener('click', async () => {
-  refreshStatusBtn.disabled = true;
-  refreshStatusBtn.textContent = 'Checking…';
-  await refreshPremiumUI();
-  refreshStatusBtn.disabled = false;
-  refreshStatusBtn.textContent = 'Refresh status';
-  load();
-});
-
 function ensureIds(queue) {
   let changed = false;
   const migrated = queue.map((item) => {
@@ -95,12 +57,9 @@ function removeById(id, queue) {
 }
 
 async function render(queue) {
-  const stored = await currentSettings();
-  const settings = premium ? stored : SETTINGS_DEFAULTS;
+  const settings = await currentSettings();
 
-  countNote.textContent = premium
-    ? `${queue.length} saved (unlimited)`
-    : `${queue.length} / ${FREE_TAB_LIMIT} saved on the free tier`;
+  countNote.textContent = `${queue.length} saved`;
 
   const displayOrder = settings.sortOrder === 'newest' ? [...queue].slice().reverse() : queue;
 
@@ -167,8 +126,7 @@ async function render(queue) {
 }
 
 nextBtn.addEventListener('click', async () => {
-  const stored = await currentSettings();
-  const settings = premium ? stored : SETTINGS_DEFAULTS;
+  const settings = await currentSettings();
   chrome.storage.local.get({ queue: [] }, ({ queue }) => {
     if (queue.length === 0) return;
     const displayOrder = settings.sortOrder === 'newest' ? [...queue].slice().reverse() : queue;
@@ -189,7 +147,6 @@ removeOnOpenCheckbox.addEventListener('change', () => {
 });
 
 (async () => {
-  await refreshPremiumUI();
   const settings = await currentSettings();
   sortOrderSelect.value = settings.sortOrder;
   removeOnOpenCheckbox.checked = settings.removeOnOpen;
